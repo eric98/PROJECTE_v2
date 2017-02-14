@@ -12,6 +12,9 @@ import java.util.Scanner;
  * @author alumne
  */
 public class PROJECTE {
+    
+    private static final int MAX_CUBS = 5;
+    private static Cub[] array = new Cub[MAX_CUBS];
 
     /**
      * @param args the command line arguments
@@ -19,21 +22,31 @@ public class PROJECTE {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        System.out.println("");
         Scanner ent = new Scanner(System.in);
         Scanner entString = new Scanner(System.in);
-        String nom=null;
-        double preu=0.0;
-        boolean pegatines=false; //si te pegatines o no
-        char tePegatines=' ';
-        int nombreColors=0;
-        int opcio=-1;
-        boolean omplit=false;
-        String nomE=null;
-        double preuE=0.0;
-        boolean pegatinesE=false; //si te pegatines o no
-        int nombreColorsE=0;
-        boolean cubNou=false;
+        int opcio = -1;
+        int i = 0;
+        char a;
+        Cub c = array[i];
+
+        // Les meues propietats
+        String nom = null;
+        double preu = 0.0;
+        boolean pegatines = false; //si te pegatines o no
+        int nombreColors = 0;
+        boolean omplit = false;
+
+        char tePegatines = ' ';
+        String nomE = null;
+        double preuE = 0.0;
+        boolean pegatinesE = false; //si te pegatines o no
+        int nombreColorsE = 0;
+        boolean cubNou = false;
+
+        for (i = 0; i < array.length; i++) {
+            array[i] = new Cub();
+            array[i].setOmplit(false);
+        }
         
         do {
             System.out.println("\nMenú de l'aplicació:");
