@@ -18,6 +18,8 @@ public class PROJECTE {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        System.out.println("");
         Scanner ent = new Scanner(System.in);
         Scanner entString = new Scanner(System.in);
         String nom=null;
