@@ -15,240 +15,260 @@ public class PROJECTE {
     
     private static final int MAX_CUBS = 5;
     private static Cub[] array = new Cub[MAX_CUBS];
+    private static int opcio;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        Scanner ent = new Scanner(System.in);
-        Scanner entString = new Scanner(System.in);
-        int opcio = -1;
-        int i = 0;
-        char a;
-        Cub c = array[i];
-
-        // Les meues propietats
-        String nom = null;
-        double preu = 0.0;
-        boolean pegatines = false; //si te pegatines o no
-        int nombreColors = 0;
-        boolean omplit = false;
-
-        char tePegatines = ' ';
-        String nomE = null;
-        double preuE = 0.0;
-        boolean pegatinesE = false; //si te pegatines o no
-        int nombreColorsE = 0;
-        boolean cubNou = false;
-
-        for (i = 0; i < array.length; i++) {
+        inicialitzarVariables();
+        do {
+            demanarOpcio();
+            tractarOpcio();
+        } while (!opcioFinal());
+    }
+    
+    public static void inicialitzarVariables(){
+         for (int i = 0; i < array.length; i++) {
             array[i] = new Cub();
             array[i].setOmplit(false);
         }
+    }
+    
+    public static void demanarOpcio(){        
+        Scanner ent = new Scanner(System.in);
+        System.out.println("\nMenú de l'aplicació:");
+        System.out.println("0. Sortir.");
+        System.out.println("1. Introduïr cub de Rubik.");
+        System.out.println("2. Borrar cub de Rubik.");
+        System.out.println("3. Modificar cub de Rubik.");
+        System.out.println("4. Llistar cubs de Rubik.");
+        System.out.println("5. Recuperar Cub de Rubik anterior.\n");
+        System.out.println("Tria una opció:");
+        opcio = ent.skip("[\r\n]*").nextInt();
+    }
+    
+    public static void tractarOpcio(){
         
-        do {
-            System.out.println("\nMenú de l'aplicació:");
-            System.out.println("0. Sortir.");
-            System.out.println("1. Introduïr cub de Rubik.");
-            System.out.println("2. Borrar cub de Rubik.");
-            System.out.println("3. Modificar cub de Rubik.");
-            System.out.println("4. Llistar cubs de Rubik.");
-            System.out.println("5. Recuperar Cub de Rubik anterior.\n");
-            
-            //System.out.println("\nTria una opció.");
-            opcio=ent.nextInt();
-            
-            switch (opcio) {
-                case 1:
-                    if (omplit){
-                        System.out.println("\nJa has introduït dades,"
-                                + " si vols afegir-ne borra-les primer.");
-                    }else{
-                        System.out.println("\nIntrodueix el nom.");
-                        nom=entString.nextLine();
-                        System.out.println("Introdueix el preu.");
-                        preu=ent.nextDouble();
-                        System.out.println("Té pegatines?. (S/N)");
-                        do{
-                            tePegatines = ent.next().toUpperCase().charAt(0);  //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
-                                                                               //per tant només haurem de tractar les lletres majúscules
-                        }while(tePegatines != 'S' && tePegatines != 'N');
-                        pegatines = (tePegatines == 'S');     //si tePegatines conté la 'S' home serà true i sinó false. Fa el mateix que un if_else però és molt més curt
-                        System.out.println("Quants de colors té?");
-                        nombreColors=ent.nextInt();
-                        omplit=true;
-                    }
-                    break;
-                case 2:
-                    if (!omplit){
-                        System.out.println("\nNo hi ha dades introduïdes,"
-                                + " afegeix-ne primer.");
-                    } else {
-                        boolean resposta=false;
-                        System.out.println("\nVols veure les dades del cub de Rubik?(S/N)");
-                        for (char i =' '; i!= 'S'&& i!= 'N';) {
-                            i = ent.next().toUpperCase().charAt(0);
-                            resposta = (i=='S');
-                        }
-                        if (resposta){
-                            System.out.println("\nDades del cub de Rubik");
-                            System.out.println("Nom: "+nom);
-                            System.out.println("Preu: "+preu);
-                            if (pegatines)System.out.println("Té pegatines");
-                            else System.out.println("No té pegatines");
-                            System.out.println("Nombre de colors: "+nombreColors);
-                        }
-                        System.out.println("\nVols borrar les dades?(S/N)");
-                        for (char i =' '; i!= 'S'&& i!= 'N';) {
-                            i = ent.next().toUpperCase().charAt(0);
-                            resposta = (i=='S');
-                        }
-                        if (resposta){
-                            nomE=nom;
-                            preuE=preu;
-                            pegatinesE=pegatines;
-                            nombreColorsE=nombreColors;
-                            cubNou=true;
-                            
-                            nom=null;
-                            preu=0.0;
-                            pegatines=false;
-                            tePegatines=' ';
-                            nombreColors=0;
-                            omplit=false;
-                            System.out.println("\nCub de Rubik borrat correctament!");                            
-                        }
-                        
-                        break;
-                    }
-                case 3:
-                    if (!omplit){
-                        System.out.println("\nNo hi ha dades per modificar,"
-                                + " afegeix-ne primer.");
-                    } else {
-                        boolean resposta=false;
-                        System.out.println("\nVols veure les dades del cub de Rubik?(S/N)");
-                        for (char i =' '; i!= 'S'&& i!= 'N';) {
-                            i = ent.next().toUpperCase().charAt(0);
-                            resposta = (i=='S');
-                        }
-                        if (resposta){
-                            System.out.println("\nDades del cub de Rubik");
-                            System.out.println("Nom: "+nom);
-                            System.out.println("Preu: "+preu);
-                            if (pegatines)System.out.println("Té pegatines");
-                            else System.out.println("No té pegatines");
-                            System.out.println("Nombre de colors: "+nombreColors);
-                        }
-                        System.out.println("\nVols modificar el cub de Rubik?(S/N)");
-                        for (char i =' '; i!= 'S'&& i!= 'N';) {
-                            i = ent.next().toUpperCase().charAt(0);
-                            resposta = (i=='S');
-                        }
-                        if (resposta){
-                            nomE=nom;
-                            preuE=preu;
-                            pegatinesE=pegatines;
-                            nombreColorsE=nombreColors;
-                            cubNou=true;
-                            System.out.println("\nNom: "+nom);
-                            System.out.println("\nVols modificar el nom?(S/N)");
-                            for (char i =' '; i!= 'S'&& i!= 'N';) {
-                                i = ent.next().toUpperCase().charAt(0);
-                                resposta = (i=='S');
-                            }
-                            if (resposta) {
-                                System.out.println("\nNou nom:");
-                                nom = entString.nextLine();
-                            }
-                            System.out.println("\nPreu: "+preu);
-                            System.out.println("\nVols modificar el preu?(S/N)");
-                            for (char i =' '; i!= 'S'&& i!= 'N';) {
-                                i = ent.next().toUpperCase().charAt(0);
-                                resposta = (i=='S');
-                            }
-                            if (resposta) {
-                                System.out.println("\nNou preu:");
-                                preu=ent.nextDouble();
-                            }
-                            if (pegatines)System.out.println("\nTé pegatines");
-                            else System.out.println("\nNo té pegatines");
-                            System.out.println("\nVols modificar si té pegatines?(S/N)");
-                            for (char i =' '; i!= 'S'&& i!= 'N';) {
-                                i = ent.next().toUpperCase().charAt(0);
-                                resposta = (i=='S');
-                            }
-                            if (resposta) {
-                                System.out.println("\nTé pegatines?(S/N)");
-                                do{
-                                    tePegatines = ent.next().toUpperCase().charAt(0);
-                                }while(tePegatines != 'S' && tePegatines != 'N');
-                                pegatines = (tePegatines == 'S');
-                            }
-                            System.out.println("\nNombre de colors: "+nombreColors);
-                            System.out.println("\nVols modificar el nombre de colors?(S/N)");
-                            for (char i =' '; i!= 'S'&& i!= 'N';) {
-                                i = ent.next().toUpperCase().charAt(0);
-                                resposta = (i=='S');
-                            }
-                            if (resposta) {
-                                System.out.println("\nNou nombre de colors:");
-                                nombreColors=ent.nextInt();
-                            }                                                                          
-                        }
-                    }
-                    break;                    
-                case 4:
-                    if (!omplit){
-                        System.out.println("\nNo hi ha dades per mostrar,"
-                                + " afegeix-ne primer.");
-                    } else {
-                        System.out.println("\nDades del cub de Rubik");
-                        System.out.println("Nom: "+nom);
-                        System.out.println("Preu: "+preu);
-                        if (pegatines)System.out.println("Té pegatines");
-                        else System.out.println("No té pegatines");
-                        System.out.println("Nombre de colors: "+nombreColors);
-                    }
-                    break;
-                case 5:
-                    if (!cubNou) System.out.println("No hi ha dades per recuperar!");
-                    else {
-                        boolean resposta=false;
-                        System.out.println("\nVols veure el cub de Rubik afegit anteriorment?(S/N)");
-                        for (char i =' '; i!= 'S'&& i!= 'N';) {
-                            i = ent.next().toUpperCase().charAt(0);
-                            resposta = (i=='S');
-                        }
-                        if (resposta) {
-                                System.out.println("\nDades del cub de Rubik");
-                                System.out.println("Nom: "+nomE);
-                                System.out.println("Preu: "+preuE);
-                                if (pegatinesE)System.out.println("Té pegatines");
-                                else System.out.println("No té pegatines");
-                                System.out.println("Nombre de colors: "+nombreColorsE);
-                        }
-                        System.out.println("\nVols recuperar aquestes dades?(S/N)");
-                        for (char i =' '; i!= 'S'&& i!= 'N';) {
-                            i = ent.next().toUpperCase().charAt(0);
-                            resposta = (i=='S');
-                        }
-                        if (resposta) {
-                            nom=nomE;
-                            preu=preuE;
-                            pegatines=pegatinesE;
-                            nombreColors=nombreColorsE;
-                        }
-                        
-                    }
-                    break;
-                    
-                    
-                    
-            }
-        } while (opcio!=0);
+        switch (opcio) {
+            case 0:                             //0. Sortir
+                System.out.println("Adéu!!");
+                break;
+            case 1:                             //1. Introduïr cub
+                introduirCub();
+                break;
+            case 2:                             //2. Modificar cub
+                modificarCub();
+                break;
+            case 3:                                     //3. Borrar cub
+                borrarCub();
+                break;
+            case 4:                                     //4. Llistar cubs
+                llistarCubs();
+                break;
+            case 5:                                     //5. Recuperar cub borrat
+                recuperarCub();
+                break;
+            default:
+                System.out.println("\nOpció incorrecta!!");
+        }
+    }
+    
+    public static boolean opcioFinal() {
+        return opcio == 0;
+    }
+    
+    public static void introduirCub(){
+        
+        Scanner ent = new Scanner(System.in);
+
+        //Primer recorrem l'array fins trobar una casella no omplida o arribar al seu final
+        int i;
+        for (i = 0; i < array.length && array[i].isOmplit(); i++);
+        //Si no hem arribat al final és per que hem trobat una casella buida (no omplida)
+        if (i < array.length) {
+            System.out.println("\nIntrodueix el nom.");
+            array[i].setNom(ent.skip("[\r\n]*").nextLine());
+            System.out.println("Introdueix el preu.");
+            array[i].setPreu(ent.skip("[\r\n]*").nextDouble());
+            char tePegatines;
+            do{
+                System.out.println("Té pegatines? (S/N)");
+                tePegatines = ent.skip("[\r\n]*").next().toUpperCase().charAt(0);  //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
+                                                               //per tant només haurem de tractar les lletres majúscules
+            }while(tePegatines != 'S' && tePegatines != 'N');
+            array[i].setPegatines(tePegatines == 'S');     //si tePegatines conté la 'S' home serà true i sinó false. Fa el mateix que un if_else però és molt més curt
+            System.out.println("Quants de colors té?");
+            array[i].setNombreColors(ent.skip("[\r\n]*").nextInt());
+            array[i].setOmplit(true);
+        } else System.out.println("\nJa has introduït dades, si vols afegir-ne borra-les primer.");
     }
 
+    public static void modificarCub() {        
+        Scanner ent = new Scanner(System.in);
+        //Primer recorrem l'array buscant caselles omplides i preguntant quina volem modificar
+        char siNo = 'N';
+        int cont = 1, i;
+        for (i = 0; i < array.length && siNo != 'S' && siNo != 'F'; i++) {
+            if (array[i].isOmplit()) {
+                System.out.format("\nCub %d:\n", cont++);
+                System.out.println(array[i].toString());
+                do {
+                    System.out.println("\nVols modificar el cub(S/N) o finalitzar la cerca (F)?:");
+                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0); //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
+                    //per tant només haurem de tractar les lletres majúscules
+                } while (siNo != 'S' && siNo != 'N' && siNo != 'F');
+            }
+            if (siNo == 'S') {
+                break;
+            }
+        }
+        //Si l'usuari ha contestat que sí és que ha triat un cub per modificar    
+        if (siNo == 'S') {
+
+            System.out.println("\nNom: " + array[i].getNom());
+            do {
+                System.out.println("\nVols modificar el nom?(S/N):");
+                siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (siNo != 'S' && siNo != 'N');
+            if (siNo == 'S') {
+                System.out.print("Nou nom: ");
+                array[i].setNom(ent.skip("[\r\n]*").nextLine());
+            }
+            
+            System.out.println("\nPreu: " + array[i].getPreu());
+            do {
+                System.out.println("\nVols modificar el preu actual?(S/N):");
+                siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (siNo != 'S' && siNo != 'N');
+            if (siNo == 'S') {
+                System.out.print("Preu nou: ");
+                array[i].setPreu(ent.skip("[\r\n]*").nextDouble());
+            }
+            
+            if (array[i].isPegatines()) {
+                System.out.println("\nTé pegatines.");
+            } else {
+                System.out.println("\nNo té pegatines.");
+            }
+            do {
+                System.out.println("\nVols modificar-ho?(S/N):");
+                siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (siNo != 'S' && siNo != 'N');
+            if (siNo == 'S') {
+                char esHome;
+                do {
+                    System.out.println("Té pegatines?(S/N):");
+                    esHome = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+                } while (esHome != 'S' && esHome != 'N');
+                array[i].setPegatines(esHome == 'S');     //si esPegatines conté la 'S' pegatines serà true i sinó false. Fa el mateix que un if_else però és molt més curt
+                if (array[i].isPegatines()) {
+                    System.out.println("Té pegatines.");
+                } else {
+                    System.out.println("No té pegatines.");
+                }
+            }
+
+            System.out.println("\nNombre de colors: " + array[i].getNombreColors());
+            do {
+                System.out.println("\nVols modificar el nombre de colors?(S/N):");
+                siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+            } while (siNo != 'S' && siNo != 'N');
+            if (siNo == 'S') {
+                System.out.print("Nou dorsal: ");
+                array[i].setNombreColors(ent.skip("[\r\n]*").nextInt());
+            }         
+            System.out.println("Cub modificat correctament.");
+
+        } else {
+            System.out.println("\nNo hi ha cubs per modificar, o no n'has triat cap per modificar.");
+        }
+    }
+
+    public static void borrarCub() {
+        //Variables locals
+        Cub c = null;   //l'utilizo per apuntar al Cub de les caselles de l'array
+        Scanner ent = new Scanner(System.in);
+        char siNo = 'N';
+        int i;
+        for (i = 0; i < array.length && siNo != 'F'; i++) {
+            c = array[i];
+            if (c.isOmplit()) {
+                System.out.println(c);
+                do {
+                    System.out.println("\nVols borrar el cub(S/N) o finalitzar la cerca (F)?:");
+                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0); //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
+                    //per tant només haurem de tractar les lletres majúscules
+                } while (siNo != 'S' && siNo != 'N' && siNo != 'F');
+            }
+            if (siNo == 'S') {
+                break;
+            }
+        }
+
+        if (siNo == 'S') {
+            c.setOmplit(false);
+            System.out.println("Cub borrat correctament.");
+
+        } else {
+            System.out.println("\nNo s'ha borrat cap cub.");
+        }
+    }
+
+    public static void llistarCubs() {
+        Scanner ent = new Scanner(System.in);
+
+        boolean algun = false;
+        char siNo = 'S';
+        int i;
+        for (i = 0; i < array.length; i++) {
+            Cub c = array[i];
+            if (c.isOmplit()) {
+                algun = true;
+                System.out.println(c);
+                do {
+                    System.out.println("\nVols veure més cubs(S/N)?:");
+                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0); //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
+                    //per tant només haurem de tractar les lletres majúscules
+                } while (siNo != 'S' && siNo != 'N');
+            }
+            if (siNo == 'N') {
+                break;
+            }
+        }
+        if (!algun) {
+            System.out.println("\nNo hi ha cubs per mostrar, si vols, primer crea'n.");
+        }
+    }
+        
+    public static void recuperarCub() {
+        Scanner ent = new Scanner(System.in);
+        //Primer recorrem l'array buscant caselles buides i preguntant quina volem recuperar
+        char siNo = 'N';
+        int cont = 0, i;
+        for (i = 0; i < array.length && siNo != 'S' && siNo != 'F'; i++) {
+            if (!array[i].isOmplit()) {
+                System.out.format("\nCub %d:\n", ++cont);
+                System.out.println(array[i].toString());
+                do {
+                    System.out.println("\nVols recuperar el cub(S/N) o finalitzar la cerca (F)?:");
+                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0); //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
+                    //per tant només haurem de tractar les lletres majúscules
+                } while (siNo != 'S' && siNo != 'N' && siNo != 'F');
+            }
+            if (siNo == 'S') {
+                break;
+            }
+        }
+        //Si l'usuari ha contestat que sí és que ha triat un cub per modificar    
+        if (siNo == 'S') {
+            array[i].setOmplit(true);
+            System.out.println("Cub recuperat correctament.");
+        } else {
+            if(cont==0) System.out.println("No hi ha cubs per recuperar.");
+            else System.out.println("Cub no recuperar.");
+        }
+    
+    }
 }
