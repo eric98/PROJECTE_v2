@@ -5,18 +5,18 @@
  */
 package projecte;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+//import java.io.BufferedInputStream;
+//import java.io.BufferedOutputStream;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,60 +27,61 @@ public class PROJECTE {
     private static final int MAX_CUBS = 5;
     private static Cub[] array = new Cub[MAX_CUBS];
     private static int opcio;
-    private static File fitxer=new File("cubs.db");
+//    private static File fitxer=new File("cubs.db");
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+//    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         // TODO code application logic here
-        File f = new File("cubs.db");
-        Cub c = new Cub("Starminx");
-
-        ObjectOutputStream sortida = null;
-
-        try {
-            sortida = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
-
-            sortida.writeObject(c);
-            sortida.writeObject(new Cub("Mirror"));
-            sortida.writeObject(new Cub("Ghost"));
-        } catch (IOException ex) {
-            System.err.println("Error en obrir el fitxer per escriptura.");
-        } finally {
-            try {
-                sortida.close();
-            } catch (IOException ex) {
-                System.err.println("Error en tancar el tixer per escriptura.");
-            }
-        }
-
-        ObjectInputStream entrada = null;
-
-        try {
-            entrada = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-
-            while (true) {
-                try {
-                    Cub o = (Cub) entrada.readObject();
-                    System.out.println(o);
-                } catch (IOException|ClassNotFoundException ex) {
-                    break;
-                }
-
-            }
-
-        } catch (IOException ex) {
-            System.err.println("Error en obrir el fitxer per lectura.");
-
-        } finally {
-            try {
-                entrada.close();
-            } catch (IOException ex) {
-                System.err.println("Error en tancar el tixer per lectura.");
-            }
-        }
-
+//        File f = new File("cubs.db");
+//        Cub c = new Cub("Starminx");
+//
+//        ObjectOutputStream sortida = null;
+//
+//        try {
+//            sortida = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+//
+//            sortida.writeObject(c);
+//            sortida.writeObject(new Cub("Mirror"));
+//            sortida.writeObject(new Cub("Ghost"));
+//        } catch (IOException ex) {
+//            System.err.println("Error en obrir el fitxer per escriptura.");
+//        } finally {
+//            try {
+//                sortida.close();
+//            } catch (IOException ex) {
+//                System.err.println("Error en tancar el tixer per escriptura.");
+//            }
+//        }
+//
+//        ObjectInputStream entrada = null;
+//
+//        try {
+//            entrada = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+//
+//            while (true) {
+//                try {
+//                    Cub o = (Cub) entrada.readObject();
+//                    System.out.println(o);
+//                } catch (IOException|ClassNotFoundException ex) {
+//                    break;
+//                }
+//
+//            }
+//
+//        } catch (IOException ex) {
+//            System.err.println("Error en obrir el fitxer per lectura.");
+//
+//        } finally {
+//            try {
+//                entrada.close();
+//            } catch (IOException ex) {
+//                System.err.println("Error en tancar el tixer per lectura.");
+//            }
+//        }
+//
         inicialitzarVariables();
         do {
             demanarOpcio();
@@ -105,7 +106,13 @@ public class PROJECTE {
         System.out.println("4. Llistar cubs de Rubik.");
         System.out.println("5. Recuperar Cub de Rubik anterior.\n");
         System.out.println("Tria una opció:");
-        opcio = ent.skip("[\r\n]*").nextInt();
+        try {
+            opcio = ent.skip("[\r\n]*").nextInt();
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("Has d'elegir una d'aquestes opcions!(0-5)");
+            ent.next();
+            demanarOpcio();                    
+        }
     }
 
     public static void tractarOpcio() {
