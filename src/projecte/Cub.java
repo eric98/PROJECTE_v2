@@ -5,11 +5,13 @@
  */
 package projecte;
 
+import java.io.Serializable;
+
 /**
  *
  * @author alumne
  */
-public class Cub {
+public class Cub implements Serializable{
         private String nom;
         private double preu;
         private boolean pegatines;
