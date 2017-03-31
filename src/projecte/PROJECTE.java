@@ -28,8 +28,8 @@ public class PROJECTE {
     //Opció triada per l'usuari
     private static int opcio;
     //Fitxer usat per persistir la informació
-    private static File fitxer=new File("cubs.db");
-    
+    private static File fitxer = new File("cubs.db");
+
     public static Cub[] getArray() {
         return array;
     }
@@ -38,7 +38,7 @@ public class PROJECTE {
      * @param args the command line arguments
      */
 //    public static void main(String[] args) throws IOException {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         // TODO code application logic here
         inicialitzarVariables();
         do {
@@ -49,21 +49,21 @@ public class PROJECTE {
 
     public static void inicialitzarVariables() {
         //Índex per recòrrer l'array
-        int i=0;
-        
+        int i = 0;
+
         //Busquem el fitxer, i si existix el tractem
-        if(fitxer.exists()){
+        if (fitxer.exists()) {
             //L'usem per si no caben els objectes del fitxer a l'array poder finalitzar l'execució
-            boolean acabar=false;
-            
+            boolean acabar = false;
+
             //Obrim el fitxer per lectura
-            ObjectInputStream lectura=null;
-            try{
+            ObjectInputStream lectura = null;
+            try {
                 //Obrim el fitxer per lectura
-                lectura=new ObjectInputStream(new BufferedInputStream(new FileInputStream(fitxer)));
-                
-                while(true){
-                    array[i]=(Cub) lectura.readObject();
+                lectura = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fitxer)));
+
+                while (true) {
+                    array[i] = (Cub) lectura.readObject();
                     //Incrementar la i per separat ja que sinó dixem una casella a null
                     i++;
                 }
@@ -72,28 +72,34 @@ public class PROJECTE {
                 //Podríem avisar a l'usuari i dixar que tanque l'aplicació ja que sinó pot perdre dades...
                 System.err.println("Atenció, no caben tots els objectes. Si continues pots perdre dades. Vols continuar?(S/N):");
                 Scanner ent = new Scanner(System.in);
-                char siNo=' ';
-                do {                    
+                char siNo = ' ';
+                do {
                     siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0); //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
                     //per tant només haurem de tractar les lletres majúscules
                 } while (siNo != 'S' && siNo != 'N');
-                if(siNo=='N') acabar=true;
-                
+                if (siNo == 'N') {
+                    acabar = true;
+                }
+
             } catch (IOException ex) {
                 //Aquí no cal fer res ja que significa que hem arribat al final del fitxer
             } catch (ClassNotFoundException ex) {
                 //Aquí tampoc cal fer res ja que significa que el fitxer llegit no conté objectes de la classe Pilot
-            }finally{
+            } finally {
                 try {
                     //Molt important tancar el fitxer de lectura
-                    if(lectura!=null) lectura.close();
+                    if (lectura != null) {
+                        lectura.close();
+                    }
                 } catch (IOException ex) {
                     //No cal mostrar res
                 }
                 //Si hem decidit acabar parem l'execucuió
-                if(acabar) System.exit(0);
+                if (acabar) {
+                    System.exit(0);
+                }
             }
-        
+
         }
         //Acabem d'omplir l'array en nous pilots sense dades
         for (; i < array.length; i++) {
@@ -101,9 +107,44 @@ public class PROJECTE {
             array[i].setOmplit(false);
         }
     }
+
+    public static void finalitzar() {
+        //Obrim el fitxer per escriptura
+        ObjectOutputStream escriptura = null;
+        try {
+            //Obrim el fitxer
+            escriptura = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fitxer)));
+
+            //Recorrem l'array guardant els objectes vàlids al fitxer
+            for (int i = 0; i < array.length; i++) {
+                //Guardem al fitxer els pilots omplits
+                if (array[i].isOmplit()) {
+                    escriptura.writeObject(array[i]);
+                }
+            }
+        } catch (IOException ex) {
+            //Aquí podem avisar a l'usuari de que no s'han guardat les dades
+            System.err.println("Error en guardar les dades!!");
+        } finally {
+            try {
+                //Molt important tancar el fitxer d'escriptura
+                if (escriptura != null) {
+                    escriptura.close();
+                }
+            } catch (IOException ex) {
+                //No cal mostrar res
+            }
+
+        }
+
+        //Missatge de comiat
+        System.out.println("Adéu!!");
+
+    }
+
     public static void demanarOpcio() {
         Scanner ent = new Scanner(System.in);
-        do {            
+        do {
             System.out.println("\nMenú de l'aplicació:");
             System.out.println("0. Sortir.");
             System.out.println("1. Introduïr cub de Rubik.");
@@ -120,14 +161,14 @@ public class PROJECTE {
                 ent.next();
             }
         } while (true);
-        
+
     }
 
     public static void tractarOpcio() {
 
         switch (opcio) {
             case 0:                             //0. Sortir
-                System.out.println("Adéu!!");
+                finalitzar();
                 break;
             case 1:                             //1. Introduïr cub
                 introduirCub();
@@ -164,8 +205,16 @@ public class PROJECTE {
         if (i < array.length) {
             System.out.println("\nIntrodueix el nom.");
             array[i].setNom(ent.skip("[\r\n]*").nextLine());
-            System.out.println("Introdueix el preu.");
-            array[i].setPreu(ent.skip("[\r\n]*").nextDouble());
+            do {
+                try {
+                    System.out.println("Introdueix el preu.");
+                    array[i].setPreu(ent.skip("[\r\n]*").nextDouble());
+                    break;
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("\nOpció incorrecta!!");
+                    ent.next();
+                }
+            } while (true);
             char tePegatines;
             do {
                 System.out.println("Té pegatines? (S/N)");
@@ -173,7 +222,7 @@ public class PROJECTE {
                 //per tant només haurem de tractar les lletres majúscules
             } while (tePegatines != 'S' && tePegatines != 'N');
             array[i].setPegatines(tePegatines == 'S');     //si tePegatines conté la 'S' home serà true i sinó false. Fa el mateix que un if_else però és molt més curt
-            do {                
+            do {
                 System.out.println("Quants de colors té?");
                 try {
                     array[i].setNombreColors(ent.skip("[\r\n]*").nextInt());
@@ -181,8 +230,8 @@ public class PROJECTE {
                 } catch (java.util.InputMismatchException e) {
                     System.out.println("\nHas de posar un número!!");
                     ent.next();
-                }            
-            } while (true);            
+                }
+            } while (true);
             array[i].setOmplit(true);
         } else {
             System.out.println("\nJa has introduït dades, si vols afegir-ne borra-les primer.");
@@ -227,8 +276,16 @@ public class PROJECTE {
                 siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
             } while (siNo != 'S' && siNo != 'N');
             if (siNo == 'S') {
-                System.out.print("Preu nou: ");
-                array[i].setPreu(ent.skip("[\r\n]*").nextDouble());
+                do {
+                    try {
+                        System.out.print("Preu nou: ");
+                        array[i].setPreu(ent.skip("[\r\n]*").nextDouble());
+                        break;
+                    } catch (java.util.InputMismatchException e) {
+                        System.out.println("\nOpció incorrecta!!");
+                        ent.next();
+                    }
+                } while (true);
             }
 
             if (array[i].isPegatines()) {
@@ -260,7 +317,7 @@ public class PROJECTE {
                 siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
             } while (siNo != 'S' && siNo != 'N');
             if (siNo == 'S') {
-                do {                
+                do {
                     try {
                         System.out.print("Nou nombre de colors: ");
                         array[i].setNombreColors(ent.skip("[\r\n]*").nextInt());
@@ -268,8 +325,8 @@ public class PROJECTE {
                     } catch (java.util.InputMismatchException e) {
                         System.out.println("\nHas de posar un número!!");
                         ent.next();
-                    }            
-            } while (true);
+                    }
+                } while (true);
 
             }
             System.out.println("Cub modificat correctament.");
