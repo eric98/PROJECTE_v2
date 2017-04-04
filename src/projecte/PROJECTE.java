@@ -68,7 +68,7 @@ public class PROJECTE {
                     i++;
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
-                //Si entrem aquí és per que al fitxer hi ha més pilots que els que caben a l'array. 
+                //Si entrem aquí és per que al fitxer hi ha més cubs que els que caben a l'array. 
                 //Podríem avisar a l'usuari i dixar que tanque l'aplicació ja que sinó pot perdre dades...
                 System.err.println("Atenció, no caben tots els objectes. Si continues pots perdre dades. Vols continuar?(S/N):");
                 Scanner ent = new Scanner(System.in);
@@ -84,7 +84,7 @@ public class PROJECTE {
             } catch (IOException ex) {
                 //Aquí no cal fer res ja que significa que hem arribat al final del fitxer
             } catch (ClassNotFoundException ex) {
-                //Aquí tampoc cal fer res ja que significa que el fitxer llegit no conté objectes de la classe Pilot
+                //Aquí tampoc cal fer res ja que significa que el fitxer llegit no conté objectes de la classe Cub
             } finally {
                 try {
                     //Molt important tancar el fitxer de lectura
@@ -101,7 +101,7 @@ public class PROJECTE {
             }
 
         }
-        //Acabem d'omplir l'array en nous pilots sense dades
+        //Acabem d'omplir l'array en nous cubs sense dades
         for (; i < array.length; i++) {
             array[i] = new Cub();
             array[i].setOmplit(false);
@@ -117,7 +117,7 @@ public class PROJECTE {
 
             //Recorrem l'array guardant els objectes vàlids al fitxer
             for (int i = 0; i < array.length; i++) {
-                //Guardem al fitxer els pilots omplits
+                //Guardem al fitxer els cubs omplits
                 if (array[i].isOmplit()) {
                     escriptura.writeObject(array[i]);
                 }
