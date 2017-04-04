@@ -23,7 +23,7 @@ public class PROJECTE {
 
     //Número de caselles màxim de l'array
     private static final int MAX_CUBS = 5;
-    //Array on guardarem la informació dels pilots
+    //Array on guardarem la informació dels cubs
     private static Cub[] array = new Cub[MAX_CUBS];
     //Opció triada per l'usuari
     private static int opcio;
