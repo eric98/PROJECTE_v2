@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class PROJECTE {
 
     //Número de caselles màxim de l'array
-    private static final int MAX_CUBS = 5;
+    private static final int MAX_CUBS = 100;
     //Array on guardarem la informació dels cubs
     private static Cub[] array = new Cub[MAX_CUBS];
     //Opció triada per l'usuari
@@ -37,7 +37,7 @@ public class PROJECTE {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String[] args) throws IOException {
+
     public static void main(String[] args) {
         // TODO code application logic here
         inicialitzarVariables();
@@ -136,10 +136,6 @@ public class PROJECTE {
             }
 
         }
-
-        //Missatge de comiat
-        System.out.println("Adéu!!");
-
     }
 
     public static void demanarOpcio() {
@@ -173,11 +169,11 @@ public class PROJECTE {
             case 1:                             //1. Introduïr cub
                 introduirCub();
                 break;
-            case 2:                             //2. Modificar cub
-                modificarCub();
-                break;
-            case 3:                                     //3. Borrar cub
+            case 2:                             //2. Borrar cub
                 borrarCub();
+                break;
+            case 3:                                     //3. Modificar cub
+                modificarCub();
                 break;
             case 4:                                     //4. Llistar cubs
                 llistarCubs();
@@ -398,15 +394,21 @@ public class PROJECTE {
         char siNo = 'N';
         int cont = 0, i;
         for (i = 0; i < array.length && siNo != 'S' && siNo != 'F'; i++) {
-            if (!array[i].isOmplit()) {
+            try {
+                if (!array[i].isOmplit() && !array[i].getNom().isEmpty()) {
+
                 System.out.format("\nCub %d:\n", ++cont);
                 System.out.println(array[i].toString());
                 do {
-                    System.out.println("\nVols recuperar el cub(S/N) o finalitzar la cerca (F)?:");
-                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0); //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
+                    System.out.println("\nVols recuperar el cub(S/N):");
+                    siNo = ent.skip("[\r\n]*").nextLine().toUpperCase().charAt(0);
+                    //usem toUpperCase() que traduix el text introduït per l'usuari a majúscules, 
                     //per tant només haurem de tractar les lletres majúscules
                 } while (siNo != 'S' && siNo != 'N' && siNo != 'F');
             }
+            } catch (java.lang.NullPointerException e) {
+            }
+            
             if (siNo == 'S') {
                 break;
             }
@@ -419,7 +421,7 @@ public class PROJECTE {
             if (cont == 0) {
                 System.out.println("No hi ha cubs per recuperar.");
             } else {
-                System.out.println("Cub no recuperar.");
+                System.out.println("Cub no recuperat.");
             }
         }
 
